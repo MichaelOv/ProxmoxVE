@@ -21,11 +21,10 @@ $STD apt-get install -y \
   sudo \
   apache2 \
   mariadb-server \
-  libapache2-mod-php \
   memcached \
   moreutils \
   unzip \
-  php-{bcmath,cli,common,curl,gd,imagick,json,ldap,mbstring,memcached,mysql,pgsql,soap,xml,zip}
+  php-{bcmath,cli,common,curl,gd,fpm,imagick,ldap,mbstring,memcached,mysql,pgsql,soap,xml,zip}
 msg_ok "Installed Dependencies"
 
 # Configuring MariaDB
@@ -65,6 +64,7 @@ table_open_cache = 2048
 innodb_stats_on_metadata = 0
 sql-mode = ""
 EOF
+
 mysql -u root -e "SET GLOBAL innodb_fast_shutdown = 0;"
 mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('${ROOT_DB_PASS}');"
 systemctl restart mariadb
@@ -96,6 +96,7 @@ session.gc_maxlifetime = 604800
 session.cookie_lifetime = 0
 mysqli.default_socket = ${MARIADB_SOCKET}
 EOF
+
 phpenmod i-doit
 systemctl restart php8.2-fpm
 msg_ok "Configured PHP"
@@ -129,6 +130,7 @@ ServerName ${hostname}
     CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 EOF
+
 a2ensite i-doit
 a2enmod rewrite proxy proxy_fcgi
 systemctl restart apache2
