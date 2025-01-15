@@ -6,7 +6,7 @@ source <(curl -s https://raw.githubusercontent.com/MichaelOv/ProxmoxVE/refs/head
 # Source: [SOURCE_URL]
 
 # App Default Values
-APP=""i-doit"
+APP="i-doit"
 # Name of the app (e.g. Google, Adventurelog, Apache-Guacamole"
 TAGS="asset-management;cmdb;foss"
 # Tags for Proxmox VE, maximum 2 pcs., no spaces allowed, separated by a semicolon ; (e.g. database | adblock;dhcp) 
