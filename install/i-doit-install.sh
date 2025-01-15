@@ -34,7 +34,7 @@ IDOIT_DB_USER=idoit
 IDOIT_DB_PASS=$(openssl rand -base64 16 | tr -dc 'a-zA-Z0-9' | head -c13)
 {
     echo "MariaDB-Credentials"
-    echo "Username: $USERNAME"
+    echo "Username: root"
     echo "Password: $ROOT_DB_PASS"
     echo ""
     echo "i-doit Mariadb user"
