@@ -94,7 +94,7 @@ default_socket_timeout = 60
 date.timezone = Europe/Berlin
 session.gc_maxlifetime = 604800
 session.cookie_lifetime = 0
-mysqli.default_socket = ${MARIADB_SOCKET}
+mysqli.default_socket = /var/run/mysqld/mysqld.sock
 EOF
 
 phpenmod i-doit
