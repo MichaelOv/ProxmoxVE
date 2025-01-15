@@ -103,6 +103,7 @@ msg_ok "Configured PHP"
 # Configuring Apache2
 msg_ok "Configuring Apache2"
 a2dissite 000-default
+HOSTNAME=$(hostname)
 cat <<EOF >/etc/apache2/sites-available/i-doit.conf
 ServerName ${hostname}
 
