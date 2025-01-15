@@ -7,21 +7,13 @@ source <(curl -s https://raw.githubusercontent.com/MichaelOv/ProxmoxVE/refs/head
 
 # App Default Values
 APP="i-doit"
-# Name of the app (e.g. Google, Adventurelog, Apache-Guacamole"
 TAGS="asset-management;cmdb;foss"
-# Tags for Proxmox VE, maximum 2 pcs., no spaces allowed, separated by a semicolon ; (e.g. database | adblock;dhcp) 
 var_cpu="2"
-# Number of cores (1-X) (e.g. 4) - default are 2
 var_ram="2048"
-# Amount of used RAM in MB (e.g. 2048 or 4096)
 var_disk="6"
-# Amount of used disk space in GB (e.g. 4 or 10)
 var_os="debian"
-# Default OS (e.g. debian, ubuntu, alpine)
 var_version="12"
-# Default OS version (e.g. 12 for debian, 24.04 for ubuntu, 3.20 for alpine)
 var_unprivileged="1"
-# 1 = unprivileged container, 0 = privileged container
 
 # App Output & Base Settings
 header_info "$APP"
