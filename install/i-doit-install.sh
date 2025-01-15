@@ -32,6 +32,15 @@ msg_info "Configuring MariaDB"
 ROOT_DB_PASS=$(openssl rand -base64 16 | tr -dc 'a-zA-Z0-9' | head -c13)
 IDOIT_DB_USER=idoit
 IDOIT_DB_PASS=$(openssl rand -base64 16 | tr -dc 'a-zA-Z0-9' | head -c13)
+{
+    echo "MariaDB-Credentials"
+    echo "Username: $USERNAME"
+    echo "Password: $ROOT_DB_PASS"
+    echo ""
+    echo "i-doit Mariadb user"
+    echo "Username: $IDOIT_DB_USER"
+    echo "Password: $IDOIT_DB_PASS"
+} >> ~/application.creds
 cat <<EOF >/etc/mysql/mariadb.conf.d/99-i-doit.cnf
 [mysqld]
 # This is the number 1 setting to look at for any performance optimization
@@ -64,13 +73,13 @@ table_open_cache = 2048
 innodb_stats_on_metadata = 0
 sql-mode = ""
 EOF
-
 mysql -u root -e "SET GLOBAL innodb_fast_shutdown = 0;"
 mysql -u root -e "ALTER USER 'root'@'localhost' IDENTIFIED VIA mysql_native_password USING PASSWORD('${ROOT_DB_PASS}');"
 systemctl restart mariadb
 msg_ok "Configured MariaDB"
+
 # Configuring PHP
-msg_ok "Configuring PHP"
+msg_info "Configuring PHP"
 cat <<EOF >/etc/php/8.2/mods-available/i-doit.ini
 allow_url_fopen = Yes
 file_uploads = On
@@ -96,15 +105,15 @@ session.gc_maxlifetime = 604800
 session.cookie_lifetime = 0
 mysqli.default_socket = /var/run/mysqld/mysqld.sock
 EOF
-
 phpenmod i-doit
 systemctl restart php8.2-fpm
 msg_ok "Configured PHP"
+
 # Configuring Apache2
-msg_ok "Configuring Apache2"
+msg_info "Configuring Apache2"
 a2dissite 000-default
 cat <<EOF >/etc/apache2/sites-available/i-doit.conf
-ServerName idoit
+ServerName ${hostname}
 
 <VirtualHost *:80>
     ServerAdmin i-doit@example.net
@@ -130,15 +139,15 @@ ServerName idoit
     CustomLog \${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 EOF
-
-a2ensite i-doit
-a2enmod rewrite proxy proxy_fcgi
-systemctl restart apache2
+a2ensite i-doit &>/dev/null
+a2enmod rewrite proxy proxy_fcgi &>/dev/null
+systemctl restart apache2 &>/dev/null
 msg_ok "Configured Apache2"
+
 # Setup i-doit
 msg_info "Setup i-doit"
 cd /var/www/html
-RELEASE=$(curl -s -L https://i-doit.com/updates.xml | grep -oP '(?<=<directory>)[^<]+' | tail -n1)
+RELEASE=$(curl -s https://i-doit.com/updates.xml | grep -oP '(?<=<directory>)[^<]+' | tail -n1)
 wget -q "https://login.i-doit.com/downloads/idoit-${RELEASE}.zip"
 unzip -q idoit-${RELEASE}.zip -d i-doit
 cd i-doit
@@ -151,18 +160,18 @@ sudo -u www-data php console.php install \
         --user "${IDOIT_DB_USER}" \
         --password "${IDOIT_DB_PASS}" \
         --admin-password "${ADMIN_CENTER_PASS}" \
-        -n 
-msg_info "Setting up i-doit done"
+        -n &>/dev/null
+msg_ok "Setting up i-doit done"
 # Creating i-doit tenant
 msg_info "Creating i-doit tenant"
-sudo -u www-data php console.php tenant-create \
+sudo -u www-data php console.php install \
         --root-user root \
         --root-password "${ROOT_DB_PASS}" \
         -d idoit_data \
         -t "Default" \
         --user "${IDOIT_DB_USER}" \
         --password "${IDOIT_DB_PASS}" \
-        -n
+        -n &>/dev/null
 msg_info "Created i-doit tenant"
 # 
 #
