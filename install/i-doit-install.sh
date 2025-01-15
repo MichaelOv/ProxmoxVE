@@ -25,7 +25,7 @@ $STD apt-get install -y \
   memcached \
   moreutils \
   unzip \
-  php8.2-{bcmath,cli,common,curl,gd,imagick,json,ldap,mbstring,memcached,mysql,pgsql,soap,xml,zip}
+  php-{bcmath,cli,common,curl,gd,imagick,json,ldap,mbstring,memcached,mysql,pgsql,soap,xml,zip}
 msg_ok "Installed Dependencies"
 
 # Configuring MariaDB
@@ -193,6 +193,3 @@ rm -f /var/www/html/i-doit-${RELEASE}.zip
 $STD apt-get -y autoremove
 $STD apt-get -y autoclean
 msg_ok "Cleaned"
-
-motd_ssh
-customize
