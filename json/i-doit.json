@@ -1,0 +1,34 @@
+{
+    "name": "i-doit",
+    "slug": "i-doit",
+    "categories": [
+        8
+    ],
+    "date_created": "2025-01-15",
+    "type": "ct",
+    "updateable": true,
+    "privileged": false,
+    "interface_port": 80,
+    "documentation": "https://kb.i-doit.com/",
+    "website": "https://i-doit.com",
+    "logo": "https://www.i-doit.com/hs-fs/hubfs/i-doit_Logo.png?width=170&height=84&name=i-doit_Logo.png",
+    "description": "The IT-documentation solution i-doit is based on a complete open source configuration management and database. Using i-doit as a CMDB you can manage your IT according to ITIL best practices and configurate the significant components of your IT environment. You can visualize the relationships between these components and keep track of software and hardware assets and their relations. i-doit is easy to install and populate with data. You can create your CMDB data model and import data from various external sources through or through auto-discovery of your network.",
+    "install_methods": [
+        {
+            "type": "default",
+            "script": "ct/i-doit.sh",
+            "resources": {
+                "cpu": 2,
+                "ram": 2048,
+                "hdd": 6,
+                "os": "debian",
+                "version": "12"
+            }
+        }
+    ],
+    "default_credentials": {
+        "username": "admin",
+        "password": "admin"
+    },
+    "notes": []
+}
