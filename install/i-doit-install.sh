@@ -138,7 +138,7 @@ msg_ok "Configured Apache2"
 # Setup i-doit
 msg_info "Setup i-doit"
 cd /var/www/html
-RELEASE=$(curl -s https://i-doit.com/updates.xml | grep -oP '(?<=<directory>)[^<]+' | tail -n1)
+RELEASE=$(curl -s -L https://i-doit.com/updates.xml | grep -oP '(?<=<directory>)[^<]+' | tail -n1)
 wget -q "https://login.i-doit.com/downloads/idoit-${RELEASE}.zip"
 unzip -q idoit-${RELEASE}.zip -d i-doit
 cd i-doit
