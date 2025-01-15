@@ -155,7 +155,7 @@ sudo -u www-data php console.php install \
 msg_info "Setting up i-doit done"
 # Creating i-doit tenant
 msg_info "Creating i-doit tenant"
-sudo -u www-data php console.php install \
+sudo -u www-data php console.php tenant-create \
         --root-user root \
         --root-password "${ROOT_DB_PASS}" \
         -d idoit_data \
