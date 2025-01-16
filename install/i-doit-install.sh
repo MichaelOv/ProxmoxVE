@@ -113,7 +113,7 @@ msg_ok "Configured PHP"
 msg_info "Configuring Apache2"
 a2dissite 000-default
 cat <<EOF >/etc/apache2/sites-available/i-doit.conf
-ServerName ${hostname}
+ServerName i-doit
 
 <VirtualHost *:80>
     ServerAdmin i-doit@example.net
@@ -147,7 +147,7 @@ msg_ok "Configured Apache2"
 # Setup i-doit
 msg_info "Setup i-doit"
 cd /var/www/html
-RELEASE=$(curl -s https://i-doit.com/updates.xml | grep -oP '(?<=<directory>)[^<]+' | tail -n1)
+RELEASE=$(curl -s -L https://i-doit.com/updates.xml | grep -oP '(?<=<directory>)[^<]+' | tail -n1)
 wget -q "https://login.i-doit.com/downloads/idoit-${RELEASE}.zip"
 unzip -q idoit-${RELEASE}.zip -d i-doit
 cd i-doit
@@ -164,7 +164,7 @@ sudo -u www-data php console.php install \
 msg_ok "Setting up i-doit done"
 # Creating i-doit tenant
 msg_info "Creating i-doit tenant"
-sudo -u www-data php console.php install \
+sudo -u www-data php console.php  tenant-create \
         --root-user root \
         --root-password "${ROOT_DB_PASS}" \
         -d idoit_data \
